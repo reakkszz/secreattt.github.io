@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Surat Untuk Kamu 💌</title>
+    <style>
+      body {
+        background-color: #fff0f5; /* Warna lembut */
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 80px;
+        overflow: hidden;
+      }
+
+      h2 {
+        color: #ff6699;
+      }
+
+      /* Bentuk dasar amplop */
+      #envelope {
+        position: relative;
+        background-color: #ffb6c1;
+        width: 260px;
+        height: 160px;
+        margin: auto;
+        cursor: pointer;
+        border-radius: 6px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Tutup amplop berbentuk segitiga */
+      #envelope::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 0;
+        height: 0;
+        border-left: 130px solid transparent;
+        border-right: 130px solid transparent;
+        border-top: 80px solid #ff99b6; /* Warna flap */
+      }
+
+      /* Isi surat (disembunyikan dulu) */
+      #message {
+        display: none;
+        background: white;
+        padding: 15px;
+        margin-top: 15px;
+        width: 230px;
+        border-radius: 8px;
+        margin-left: auto;
+        margin-right: auto;
+        box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      /* Gaya balon */
+      .balloon {
+        width: 30px;
+        height: 40px;
+        border-radius: 50%;
+        position: absolute;
+        bottom: 60px;
+        opacity: 0;
+      }
+
+      /* Animasi balon terbang */
+      @keyframes float {
+        0% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-550px);
+          opacity: 0;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Klik Amplop Ini 💌</h2>
+    <div id="envelope"></div>
+
+    <div id="message">
+      <p>Hai kamu 💕</p>
+      <p>Jangan sedih ya, semangat terus 🌷</p>
+    </div>
+
+    <!-- 🎵 Audio utama -->
+    <audio id="music1" src="music.mp3" loop></audio>
+
+    <script>
+      const envelope = document.getElementById("envelope");
+      const message = document.getElementById("message");
+      const music1 = document.getElementById("music1");
+
+      let played = false; // Biar musik cuma main sekali
+
+      envelope.onclick = function () {
+        if (message.style.display === "none") {
+          message.style.display = "block"; // Tampilkan surat
+
+          // Putar dua musik bersamaan (bisa salah satu aja juga)
+          if (!played) {
+            music1.play();
+            played = true;
+          } else message.style.display = "none"; // Tutup pesan
+          music1.pause();
+
+          // Buat 6 balon naik ke atas
+          for (let i = 0; i < 6; i++) {
+            const balloon = document.createElement("div");
+            balloon.className = "balloon";
+            balloon.style.left = `calc(50% - ${120 - i * 40}px)`; // Jarak antar balon
+            balloon.style.backgroundColor = [
+              "#ff6fae",
+              "#ff99cc",
+              "#ffb6c1",
+              "#ff80aa",
+              "#ff4d94",
+              "#ffa6c9",
+            ][i];
+            document.body.appendChild(balloon);
+
+            // Jalankan animasi
+            balloon.style.animation = "float 5s ease forwards";
+
+            // Hapus setelah animasi selesai
+            setTimeout(() => balloon.remove(), 5000);
+          }
+        } else {
+          message.style.display = "none"; // Tutup pesan
+        }
+      };
+    </script>
+  </body>
+</html>
